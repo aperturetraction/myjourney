@@ -84,13 +84,14 @@ def faq():
 def sec(h,b,c=''):return f'<section class="sec {c}"><div class="w"><h2>{i(h)}</h2>{b}</div></section>'
 def related(cur):
   return sec('h.more','<div class="chips">'+''.join(f'<a class="chip" href="{f}" data-i18n="{t}">{T[t][0]}</a>' for f,t in MAIN[1:6] if f!=cur)+'</div>')
+def ph(n,c=''):return f'<figure class="ph {c}"><svg viewBox="0 0 120 60" aria-hidden="true"><path d="M10 44V30l12-14h50l22 14 14 4v10z" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/><circle cx="34" cy="46" r="7" fill="#fff7ed" stroke="currentColor" stroke-width="2.5"/><circle cx="92" cy="46" r="7" fill="#fff7ed" stroke="currentColor" stroke-width="2.5"/></svg><img src="assets/images/{n}.jpg" alt="MPV" loading="lazy" onerror="this.remove()"></figure>'
 def hero(h1,lead,cta,key,home=False):
-  return f'<section class="hero"><div class="w">{i("tag","p","kick") if home else ""}<h1 data-i18n="{h1}">{T[h1][0]}</h1>{i(lead,"p","lead")}<div class="row">{wa(key,cta)}{f"<a class={chr(34)}btn ghost{chr(34)} href={chr(34)}#services{chr(34)} data-i18n={chr(34)}cta.explore{chr(34)}>{T[chr(99)+chr(116)+chr(97)+chr(46)+chr(101)+chr(120)+chr(112)+chr(108)+chr(111)+chr(114)+chr(101)][0]}</a>" if home else ""}</div></div></section>'
+  return f'<section class="hero"><div class="w hg"><div>{i("tag","p","kick") if home else ""}<h1 data-i18n="{h1}">{T[h1][0]}</h1>{i(lead,"p","lead")}<div class="row">{wa(key,cta)}{f"<a class={chr(34)}btn ghost{chr(34)} href={chr(34)}#services{chr(34)} data-i18n={chr(34)}cta.explore{chr(34)}>{T[chr(99)+chr(116)+chr(97)+chr(46)+chr(101)+chr(120)+chr(112)+chr(108)+chr(111)+chr(114)+chr(101)][0]}</a>" if home else ""}</div></div>{ph("mpv-hero","big")}</div></section>'
 def page(fn,tk,desc,body,title=None):
   nav=''.join(f'<a href="{f}"{" class=on" if f==fn else ""} data-i18n="{t}">{T[t][0]}</a>' for f,t in MAIN)
   pop=''.join(f'<a href="{s}.html" data-i18n="h1.{s}">{T["h1."+s][0]}</a>' for s in SEO)
   ld=json.dumps({"@context":"https://schema.org","@type":"TravelAgency","name":"MY JOURNEY SERVICES","slogan":T['slogan'][0],"url":SITE})
-  html=f'''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{T[tk][0]} | MY JOURNEY SERVICES</title><meta name="description" content="{desc}"><link rel="canonical" href="{SITE}{fn}"><meta name="theme-color" content="#0e1110"><link rel="stylesheet" href="assets/css/style.css"><script type="application/ld+json">{ld}</script></head><body data-title="{tk}"><header><div class="w bar"><a class="logo" href="index.html">MY <b>JOURNEY</b> SERVICES</a><nav id="nav">{nav}</nav><div class="tools"><button id="lang" type="button" aria-label="Language">中文</button><button class="burger" id="burger" type="button" aria-label="Menu">☰</button></div></div></header><main>{body}</main><footer><div class="w"><p class="logo">MY <b>JOURNEY</b> SERVICES</p><p class="muted">{i("tag")}<br>{i("slogan")}</p><div class="row">{wa("general","cta.wa")}<a class="btn ghost" data-email href="#" hidden>{i("ct.email")}</a></div><h4>{i("ft.pop")}</h4><div class="chips">{pop}</div><p class="muted small">{i("terms")}</p><p class="muted small">© MY JOURNEY SERVICES</p></div></footer>{wa("general","cta.wa","fab")}<script src="assets/js/config.js"></script><script src="assets/js/translations.js"></script><script src="assets/js/app.js"></script></body></html>'''
+  html=f'''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{T[tk][0]} | MY JOURNEY SERVICES</title><meta name="description" content="{desc}"><link rel="canonical" href="{SITE}{fn}"><meta name="theme-color" content="#fffaf5"><link rel="stylesheet" href="assets/css/style.css"><script type="application/ld+json">{ld}</script></head><body data-title="{tk}"><header><div class="w bar"><a class="logo" href="index.html">MY <b>JOURNEY</b> SERVICES</a><nav id="nav">{nav}</nav><div class="tools"><button id="lang" type="button" aria-label="Language">中文</button><button class="burger" id="burger" type="button" aria-label="Menu">☰</button></div></div></header><main>{body}</main><footer><div class="w"><p class="logo">MY <b>JOURNEY</b> SERVICES</p><p class="muted">{i("tag")}<br>{i("slogan")}</p><div class="row">{wa("general","cta.wa")}<a class="btn ghost" data-email href="#" hidden>{i("ct.email")}</a></div><h4>{i("ft.pop")}</h4><div class="chips">{pop}</div><p class="muted small">{i("terms")}</p><p class="muted small">© MY JOURNEY SERVICES</p></div></footer>{wa("general","cta.wa","fab")}<script src="assets/js/config.js"></script><script src="assets/js/translations.js"></script><script src="assets/js/app.js"></script></body></html>'''
   open(f'{O}/{fn}','w',encoding='utf-8').write(html)
 def cards(keys):return '<div class="grid">'+''.join(f'<div class="card">{i(k,"p")}</div>' for k in keys)+'</div>'
 AI=[f'ai{n}' for n in range(1,10)];PT=[f'pt{n}' for n in range(1,7)]
@@ -99,7 +100,7 @@ def extra(s):
   if s=='private':return sec('h.offer',cards(PT))
   if s=='tours':return sec('h.offer',cards(['d.kl','d.genting','d.malacca','d.cameron','o.custom']))
   if s=='travel':return sec('h.offer','<div class="grid">'+''.join(f'<div class="card"><h3>{i("tr."+k)}</h3><p class="muted">{i("tr."+k+"d")}</p>{wa(k,"cta.enq","btn")}</div>' for k in ('flight','hotel','package'))+'</div>')
-  return sec('h.offer',f'<div class="grid"><div class="card"><h3>{i("mp.self")}</h3><p class="muted">{i("mp.selfd")}</p></div><div class="card"><h3>{i("mp.drv")}</h3><p class="muted">{i("mp.drvd")}</p></div></div><h3 class="sub">{i("mp.cats")}</h3><div class="chips">'+''.join(f'<span class="chip">{i(k)}</span>' for k in V[1:])+f'</div><p class="muted">{i("mp.note")}</p>')
+  return sec('h.offer',f'<div class="grid"><div class="card"><h3>{i("mp.self")}</h3><p class="muted">{i("mp.selfd")}</p></div><div class="card"><h3>{i("mp.drv")}</h3><p class="muted">{i("mp.drvd")}</p></div></div><div class="grid g3 gal">{ph("mpv-1")}{ph("mpv-2")}{ph("mpv-3")}</div><h3 class="sub">{i("mp.cats")}</h3><div class="chips">'+''.join(f'<span class="chip">{i(k)}</span>' for k in V[1:])+f'</div><p class="muted">{i("mp.note")}</p>')
 for s,(fn,t,p,c) in SV.items():
   page(fn,t+'.t',T[p][0],hero(t+'.t',p,c,FORM[s] if s!='mpv' else 'mpv')+extra(s)+sec('h.req',form(FORM[s]),'alt')+sec('h.how',steps())+related(fn))
 for s,(sv,a,b,c,d) in SEO.items():
@@ -166,35 +167,40 @@ document.querySelectorAll('form[data-service]').forEach(function(f){
 });
 apply();
 })();''')
-open(f'{O}/assets/css/style.css','w').write(''':root{--bg:#0e1110;--card:#171b1a;--alt:#121615;--line:#262c2a;--g:#10b981;--tx:#f3f6f5;--mu:#9ba7a2}
+open(f'{O}/assets/css/style.css','w').write('''/* Photos: put MPV images in assets/images/ named mpv-hero.jpg, mpv-1.jpg, mpv-2.jpg, mpv-3.jpg (they appear automatically). */
+:root{--bg:#fffaf5;--card:#fff;--alt:#fff1e6;--line:#ecdccf;--g:#ea580c;--btn:#c2410c;--tx:#1c1917;--mu:#6b625c}
 *{box-sizing:border-box;margin:0}html{scroll-behavior:smooth}
 body{font:16px/1.65 system-ui,-apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--tx);-webkit-text-size-adjust:100%}
-a{color:inherit}.w{max-width:1100px;margin:auto;padding:0 20px}.muted{color:var(--mu)}.small{font-size:13px;margin-top:14px}.center{text-align:center}
-header{position:sticky;top:0;z-index:20;background:rgba(14,17,16,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
-.bar{display:flex;align-items:center;justify-content:space-between;height:60px}
-.logo{font-weight:800;letter-spacing:.05em;text-decoration:none;font-size:15px}.logo b{color:var(--g)}
-nav{display:none;position:absolute;top:60px;left:0;right:0;background:var(--bg);padding:8px 20px 16px;border-bottom:1px solid var(--line);flex-direction:column}nav.open{display:flex}
-nav a{padding:12px 0;text-decoration:none;font-size:14px;font-weight:600;letter-spacing:.03em;color:var(--mu)}nav a.on,nav a:hover{color:var(--g)}
-.tools{display:flex;gap:8px}.tools button{background:none;border:1px solid var(--line);color:var(--tx);border-radius:999px;padding:8px 14px;font:inherit;font-size:14px;cursor:pointer}
+a{color:inherit}.w{max-width:1120px;margin:auto;padding:0 20px}.muted{color:var(--mu)}.small{font-size:13px;margin-top:14px}.center{text-align:center}
+header{position:sticky;top:0;z-index:20;background:rgba(255,250,245,.95);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.bar{display:flex;align-items:center;justify-content:space-between;height:64px}
+.logo{font-weight:800;letter-spacing:.04em;text-decoration:none;font-size:15px}.logo b{color:var(--g)}
+nav{display:none;position:absolute;top:64px;left:0;right:0;background:var(--bg);padding:8px 20px 16px;border-bottom:1px solid var(--line);flex-direction:column}nav.open{display:flex}
+nav a{padding:12px 0;text-decoration:none;font-size:14px;font-weight:600;color:var(--mu)}nav a.on,nav a:hover{color:var(--g)}
+.tools{display:flex;gap:8px}.tools button{background:#fff;border:1px solid var(--line);color:var(--tx);border-radius:999px;padding:8px 14px;font:inherit;font-size:14px;cursor:pointer}
 @media(min-width:1120px){nav{display:flex;position:static;flex-direction:row;gap:16px;padding:0;border:0;background:none}nav a{padding:0;font-size:12px}.burger{display:none}}
-.hero{padding:64px 0 48px}.brandline{color:var(--g);font-weight:700;letter-spacing:.06em;margin-bottom:12px}.kick{color:var(--mu);margin-bottom:8px}
-h1{font-size:clamp(34px,7vw,64px);line-height:1.08;letter-spacing:-.025em;font-weight:800;max-width:15em}
+.hero{padding:40px 0 56px;background:linear-gradient(180deg,var(--alt),var(--bg))}.hg{display:grid;gap:32px;align-items:center}
+@media(min-width:900px){.hg{grid-template-columns:1.1fr .9fr}.hero{padding:72px 0}}
+.brandline{color:var(--g);font-weight:700;letter-spacing:.05em;margin-bottom:10px}.kick{color:var(--mu);margin-bottom:8px;font-weight:600}
+h1{font-size:clamp(32px,6vw,56px);line-height:1.1;letter-spacing:-.025em;font-weight:800}
 h2{font-size:clamp(24px,4vw,34px);letter-spacing:-.015em;margin-bottom:24px}h3{font-size:18px;margin-bottom:6px}.sub{margin:24px 0 10px}h4{margin:28px 0 10px}
-.lead{color:var(--mu);font-size:18px;max-width:38em;margin-top:18px}.row{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
-.btn{display:inline-block;background:var(--g);color:#04130d;font-weight:700;border:0;border-radius:14px;padding:14px 22px;font-size:16px;text-decoration:none;cursor:pointer;font-family:inherit;min-height:48px}
-.btn:hover{filter:brightness(1.1)}.btn.ghost{background:none;color:var(--tx);border:1px solid var(--line)}
-.sec{padding:56px 0}.sec.alt{background:var(--alt);border-block:1px solid var(--line)}
-.grid{display:grid;gap:16px}.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px}.card .btn{margin-top:16px}
+.lead{color:var(--mu);font-size:18px;max-width:36em;margin-top:16px}.row{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+.btn{display:inline-block;background:var(--btn);color:#fff;font-weight:700;border:0;border-radius:12px;padding:14px 22px;font-size:16px;text-decoration:none;cursor:pointer;font-family:inherit;min-height:48px}
+.btn:hover{background:#9a3412}.btn.ghost{background:#fff;color:var(--tx);border:1px solid var(--line)}
+.ph{position:relative;aspect-ratio:4/3;border-radius:22px;overflow:hidden;background:#ffe8d4;color:#ea580c;display:grid;place-items:center;border:1px solid var(--line)}
+.ph svg{width:46%;opacity:.6}.ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.gal{margin-top:20px}
+.sec{padding:60px 0}.sec.alt{background:var(--alt);border-block:1px solid var(--line)}
+.grid{display:grid;gap:16px}.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px;border-top:3px solid var(--g)}.card .btn{margin-top:16px}
 @media(min-width:700px){.grid{grid-template-columns:repeat(2,1fr)}.g4{grid-template-columns:repeat(2,1fr)}}
 @media(min-width:960px){.grid{grid-template-columns:repeat(3,1fr)}.g4{grid-template-columns:repeat(4,1fr)}}
-.chips{display:flex;flex-wrap:wrap;gap:10px}.chip{border:1px solid var(--line);border-radius:999px;padding:8px 16px;font-size:14px;text-decoration:none;color:var(--mu)}a.chip:hover{border-color:var(--g);color:var(--g)}
-.form{max-width:640px;display:grid;gap:16px}.field label{display:block;font-size:14px;font-weight:600;margin-bottom:6px}.field em{color:var(--mu);font-style:normal;font-weight:400}
-input,select,textarea{width:100%;background:var(--bg);color:var(--tx);border:1px solid var(--line);border-radius:12px;padding:13px 14px;font:inherit;font-size:16px;color-scheme:dark}
+.chips{display:flex;flex-wrap:wrap;gap:10px}.chip{background:#fff;border:1px solid var(--line);border-radius:999px;padding:8px 16px;font-size:14px;text-decoration:none;color:var(--mu)}a.chip:hover{border-color:var(--g);color:var(--g)}
+.form{max-width:640px;display:grid;gap:16px;border-top-color:var(--g)}.field label{display:block;font-size:14px;font-weight:600;margin-bottom:6px}.field em{color:var(--mu);font-style:normal;font-weight:400}
+input,select,textarea{width:100%;background:#fff;color:var(--tx);border:1px solid #d9c7b8;border-radius:12px;padding:13px 14px;font:inherit;font-size:16px}
 input:focus,select:focus,textarea:focus,a:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var(--g);outline-offset:2px}
-.err{color:#fca5a5;font-size:13px;display:block;min-height:0}.ok{border:1px solid var(--g);border-radius:14px;padding:16px}.ok[hidden]{display:none}
+.err{color:#b91c1c;font-size:13px;display:block}.ok{border:1px solid var(--g);background:var(--alt);border-radius:14px;padding:16px}.ok[hidden]{display:none}
 details.card{margin-bottom:12px}summary{cursor:pointer;font-weight:600}details p{margin-top:10px}
-footer{border-top:1px solid var(--line);padding:48px 0 110px}
-.fab{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:30;background:var(--g);color:#04130d;font-weight:800;text-decoration:none;border-radius:999px;padding:15px 22px;box-shadow:0 6px 20px rgba(0,0,0,.4)}
+footer{background:#1c1917;color:#f5f5f4;padding:48px 0 110px}footer .muted{color:#a8a29e}footer .chip{background:none;border-color:#44403c;color:#d6d3d1}footer .btn.ghost{background:none;color:#f5f5f4;border-color:#57534e}
+.fab{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:30;background:var(--btn);color:#fff;font-weight:800;text-decoration:none;border-radius:999px;padding:15px 22px;box-shadow:0 6px 20px rgba(0,0,0,.25)}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}''')
 urls=[f for f,_ in MAIN]+[s+'.html' for s in SEO]+[SV[k][0] for k in ()]
 open(f'{O}/sitemap.xml','w').write('<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'+''.join(f'<url><loc>{SITE}{u}</loc></url>' for u in urls)+'</urlset>')
